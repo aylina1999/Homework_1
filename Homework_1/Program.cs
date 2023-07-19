@@ -109,7 +109,7 @@ namespace Homework_1
 			*/
 			#endregion CALCULATOR
 
-			#region SHOOTER:
+			#region SHOOTER
 			/*
 			ConsoleKey key;
 			do
@@ -129,7 +129,14 @@ namespace Homework_1
 			*/
 			#endregion SHOOTER
 
+			#region CURSOR
 
+
+			Console.BufferWidth = Console.WindowWidth + 1;
+            Console.BufferHeight = Console.WindowHeight + 1;
+			Console.WriteLine($"Buffer: {Console.BufferWidth} {Console.BufferHeight}");
+			Console.WriteLine($"Buffer: {Console.WindowWidth} {Console.WindowHeight}");
+			
 			
 			int x = 10;
 			int y = 10;
@@ -137,22 +144,50 @@ namespace Homework_1
 			ConsoleKey key;
 			do
 			{
+				int outofRange = 0;
 				key = Console.ReadKey(true).Key;
                 switch (key)
 				{
+					case ConsoleKey.UpArrow:
+					
 					case ConsoleKey.W:  y--; break;
+                    case ConsoleKey.DownArrow:
 					case ConsoleKey.S:  y++; break;
+					case ConsoleKey.LeftArrow:
 					case ConsoleKey.A:  x--; break;
+					case ConsoleKey.RightArrow:
 					case ConsoleKey.D:  x++; break;
-					default: Console.Beep(); break;
+					default: Console.Beep(200,1000); break;
 				}
-				
-				Console.Clear();
+
+				if (x < 0) { x = 0; outofRange++; }
+				if (y < 0) { y = 0; outofRange++; }
+				if (x >= Console.WindowWidth - 1) { x = Console.WindowWidth - 1; outofRange++; }
+				if (y >= Console.WindowHeight - 1) { x = Console.WindowHeight - 1; outofRange++; }
+				if (outofRange > 0) Console.Beep();
+
+                Console.Clear();
 				Console.BackgroundColor = ConsoleColor.Blue;
 				Console.SetCursorPosition(x, y);
 				Console.WriteLine(" ");
 				Console.BackgroundColor = ConsoleColor.Black;
+
+                Console.SetCursorPosition(0, 0);
+				Console.WriteLine("X = " + x);
+				Console.WriteLine("Y = " + y);
+				try
+				{  
+					
+				}
+				catch (Exception e)
+				{
+					Console.SetCursorPosition(1, Console.BufferHeight - 2);
+					Console.WriteLine(e.Message);
+					
+				}
 			} while (key != ConsoleKey.Escape);
+
+			#endregion CURSOR
 		}
 	}
 }
